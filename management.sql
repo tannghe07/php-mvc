@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: localhost
--- Thời gian đã tạo: Th7 16, 2023 lúc 12:34 PM
+-- Thời gian đã tạo: Th7 18, 2023 lúc 06:15 AM
 -- Phiên bản máy phục vụ: 10.4.28-MariaDB
 -- Phiên bản PHP: 8.2.4
 
@@ -39,11 +39,12 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `name`, `price`, `quantity`) VALUES
-(11, 'tu lanh', 123, 100),
-(12, 'tu lanh', 123, 100),
-(13, 'tu lanh', 123, 100),
-(14, 'tu lanh', 200, 100),
-(15, 'tu lanh', 123, 100);
+(22, 'may giat', 123, 40),
+(23, '20', 20, 20),
+(24, 'tu lanh', 200, 20),
+(25, 'tu lanh', 123, 100),
+(26, 'tan', 1000, 1000),
+(27, 'tu lanh', 200, 100);
 
 -- --------------------------------------------------------
 
@@ -55,17 +56,19 @@ CREATE TABLE `users` (
   `id` int(11) NOT NULL,
   `name` varchar(45) NOT NULL,
   `email` varchar(45) NOT NULL,
-  `password` varchar(255) NOT NULL
+  `password` varchar(255) NOT NULL,
+  `token_value` varchar(255) DEFAULT NULL,
+  `token_key` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `password`) VALUES
-(1, 'tan', 'admin@gmail.com', '$2y$10$QhotgehUakk1WhiXYtOYreXQI9F0sENj0d4OZW30ltx19rm5GKtDq'),
-(2, 'tan', 'admin1@gmail.com', '$2y$10$rXxf/BUltwIW7cU3sMmCo.g4JyoRiLv1bUgEoq3E4gxtgjqGoLzRW'),
-(3, 'tan', 'user@gmail.com', '$2y$10$GDjernPYo504T2licWyGVemIyM2P/4gxHyA.Gh283A6cB9pFWYS6u');
+INSERT INTO `users` (`id`, `name`, `email`, `password`, `token_value`, `token_key`) VALUES
+(1, 'tan', 'admin@gmail.com', '$2y$10$YYXvfEucBGXRscb3n/l9r.G43OmUg7FK9HDwyazJJ5qOfP25sfm2e', 'c582f397271ee5774df25679c9ef15d33315c5407d4fffc0525f92fa157cb27c', '0e267bb22ee12a43e84de3f2500bec2fcf13ccf944f041070a5053a049390b3c'),
+(2, 'nghetan01', 'nghetan07@gmail.com', '$2y$10$bj40cHi7mzHBxdVZuLcZ..Tlcfw15uiGakdEvGVzUu30KynfX4tr2', NULL, NULL),
+(3, 'tan', 'user@gmail.com', '$2y$10$FbJzOL0H7ujVlTUmCZqbju/.P7QIauBA50c9FbQj1EHJjzI20kXri', 'c582f397271ee5774df25679c9ef15d33315c5407d4fffc0525f92fa157cb27c', '0e267bb22ee12a43e84de3f2500bec2fcf13ccf944f041070a5053a049390b3c');
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -91,7 +94,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT cho bảng `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT cho bảng `users`
