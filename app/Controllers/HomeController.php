@@ -3,7 +3,7 @@
 class HomeController extends View {
 
     public function index(){
-        if(isset($_SESSION['user'])){
+        if(is_logged_in()){
             $this->view('home');
         }
         else{

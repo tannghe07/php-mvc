@@ -159,8 +159,8 @@
                 </div>
                 <div class="info">
                     <a href="#" class="d-block">
-                        <?php if (isset($_SESSION['user_name'])):?>
-                            <?php echo $_SESSION['user_name']; ?>
+                        <?php if (isset($_SESSION['userr'])):?>
+                            <?php echo $_SESSION['userr'][1]; ?>
                         <?php endif;?>
                     </a>
                 </div>

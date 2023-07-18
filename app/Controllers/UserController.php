@@ -3,7 +3,7 @@
 class UserController extends View{
 
     public function index(){
-        if(isset($_SESSION['user'])){
+        if(is_logged_in()){
             $user = new User('', '', '');
             $res = $user->getById();
             $data['users'] = $res;
@@ -15,15 +15,16 @@ class UserController extends View{
     }
 
     public function login(){
-        if(empty($_SESSION['user'])){
+        if(!is_logged_in()){
             $this->view('auth/login');
+        }
+        else{
+            redirect('home/index');
         }
     }
 
     public function register(){
-        if(empty($_SESSION['user'])){
-            $this->view('auth/register');
-        }
+        $this->view('auth/register');
     }
 
     public function postRegister(){
@@ -33,15 +34,11 @@ class UserController extends View{
             $password = $_POST['password'];
             $user = new User($email, $name, $password);
             $res = $user->register();
-//            var_dump($res);
             if($res){
                 redirect('user/login');
             }
             else{
-//                redirect('user/register');
                 $_SESSION['errRe'] = 'email đã tồn tại!';
-//                $data['success'] = 'email đã tồn tại!';
-//                redirect('user/register');
                 $this->view('auth/register');
             }
         }
@@ -51,11 +48,22 @@ class UserController extends View{
         if(isset($_POST['submit'])){
             $email = $_POST['email'];
             $password = $_POST['password'];
+            $remember = $_POST['remember'];
             $user = new User($email, '', $password);
             $res = $user->login();
             if($res){
-                $_SESSION['user'] = $_POST;
-                $_SESSION['user_name'] = $user->name;
+                $row = $user->getById("WHERE email = '$email'")->fetch_row();
+                $_SESSION['userr'] = $row;
+                if($remember != ''){
+                    $expires = time() + (60*60*24*7);
+                    $token = "@#tan&%";
+                    $token_key = hash('sha256', ('key'.$token));
+                    $token_value = hash('sha256', ('Logged_in'.$token));
+                    setcookie('userr', $token_key.":".$token_value, $expires);
+                    $id = $row[0];
+                    $user->updateToken($token_key, $token_value, $id);
+                }
+//                print_r(is_logged_in());
                 redirect('home/index');
             }
             else{
@@ -66,8 +74,9 @@ class UserController extends View{
     }
 
     public function logout(){
-        if(isset($_SESSION['user'])){
-            unset($_SESSION['user']);
+        if(!empty($_SESSION['userr'])){
+            unset($_SESSION['userr']);
+            setcookie('userr', '', time() - (60*60*24*7));
             redirect('user/login');
         }
     }

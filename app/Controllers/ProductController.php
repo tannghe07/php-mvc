@@ -2,7 +2,7 @@
 
 class ProductController extends View {
     public function index(){
-        if(isset($_SESSION['user'])){
+        if(is_logged_in()){
             $pro = new Product();
             $res = $pro->getById();
             $data['products'] = $res;
@@ -14,7 +14,7 @@ class ProductController extends View {
     }
 
     public function add(){
-        if(isset($_SESSION['user'])){
+        if(is_logged_in()){
             $this->view('product/add');
         }
         else{
@@ -23,18 +23,19 @@ class ProductController extends View {
     }
 
     public function store(){
-        if(isset($_SESSION['user'])){
+        if(is_logged_in()){
             if(isset($_POST['submit'])){
-//            $name = $_POST['name'];
-//            $price = $_POST['price'];
-//            $image = $_POST['quantity'];
-//            echo $name."-".$price."-".$image;
                 $pro = new Product();
-                $res = $pro->insert($_POST);
-                if($res) {
-                    redirect("product/index");
-//                $data['success'] = 'thêm mới thành công!';
-//                $this->view('product/index', $data);
+                $pro->validate($_POST);
+                if(!empty($pro->error)){
+                    $data['errors'] = $pro->error;
+                    $this->view('product/add', $data);
+                }
+                else{
+                    $res = $pro->insert($_POST);
+                    if($res) {
+                        redirect("product/index");
+                    }
                 }
             }
             else{
@@ -47,12 +48,11 @@ class ProductController extends View {
     }
 
     public function delete($id){
-        if(isset($_SESSION['user'])){
+        if(is_logged_in()){
             $pro = new Product();
             $res = $pro->delete($id);
             if($res){
                 $data['success'] = 'xóa thành công!';
-//            $this->view('product/index', $data);
                 redirect("product/index");
             }
         }
@@ -62,7 +62,7 @@ class ProductController extends View {
     }
 
     public function edit($id){
-        if(isset($_SESSION['user'])){
+        if(is_logged_in()){
             $pro = new Product();
             $res = $pro->getById("WHERE id=$id");
             $data['products'] = $res;
@@ -74,18 +74,19 @@ class ProductController extends View {
     }
 
     public function update($id){
-        if(isset($_SESSION['user'])){
+        if(is_logged_in()){
             if(isset($_POST['submit'])) {
-                $name = $_POST['name'];
-                $price = $_POST['price'];
-                $image = $_POST['quantity'];
-                echo $name . "-" . $price . "-" . $image;
                 $pro = new Product();
-                $res = $pro->update($_POST, "WHERE id=$id");
-                if($res) {
-                    $data['success'] = 'add product successfully!';
-//                $this->view('product/index', $data);
-                    redirect("product/index");
+                $pro->validate($_POST);
+                if(!empty($pro->error)){
+                    $data['errors'] = $pro->error;
+                    $this->view('product/edit', $data);
+                }
+                else{
+                    $res = $pro->update($_POST, $id);
+                    if($res) {
+                        redirect("product/index");
+                    }
                 }
             }
             else{

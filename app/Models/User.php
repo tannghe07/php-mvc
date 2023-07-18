@@ -15,6 +15,12 @@ class User extends Database{
         $this->db = $this->connect();
     }
 
+    public function updateToken($token_key, $token_value, $id){
+        $sql = "update users set token_value = '$token_value', token_key = '$token_key' where id = '$id' limit 1";
+        $this->db->query($sql);
+
+    }
+
     public function getById($condition="", $field="*"){
         $sql = "SELECT $field FROM $this->table $condition";
         $result = $this->db->query($sql);

@@ -50,7 +50,11 @@
             </div><!-- /.container-fluid -->
         </div>
         <!-- /.content-header -->
-
+        <?php if (isset($errors)):?>
+            <?php foreach ($errors as $error):?>
+                <p class="alert-danger alert"><?php echo $error;?></p>
+            <?php endforeach; ?>
+        <?php endif;?>
         <!-- Main content -->
         <section class="content">
             <div class="container-fluid">
@@ -61,11 +65,11 @@
                     </div>
                     <div class="mb-3">
                         <label for="price" class="form-label">Price</label>
-                        <input type="number" class="form-control" id="price" required name="price">
+                        <input type="number" class="form-control" id="price" required name="price" min="1" max="1000000">
                     </div>
                     <div class="mb-3">
                         <label for="quantity" class="form-label">Quantity</label>
-                        <input type="number" class="form-control" id="quantity" required name="quantity">
+                        <input type="number" class="form-control" id="quantity" required name="quantity" min="1" max="10000">
                     </div>
                     <button type="submit" class="btn btn-primary" name="submit">Submit</button>
                 </form>

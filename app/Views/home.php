@@ -53,6 +53,7 @@
         <!-- Main content -->
         <section class="content">
             <div class="container-fluid">
+                <p><?php echo $_COOKIE['userr'];?></p>
 
             </div><!-- /.container-fluid -->
         </section>
