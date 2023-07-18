@@ -1,6 +1,6 @@
 <?php
 
-class UserController extends View{
+class UserController extends BaseController{
 
     public function index(){
         if(is_logged_in()){

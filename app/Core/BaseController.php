@@ -1,6 +1,6 @@
 <?php
 
-class View{
+class BaseController{
     public function view($name, $data=[]){
         if(!empty($data)){
             extract($data);

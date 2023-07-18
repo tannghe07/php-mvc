@@ -1,6 +1,6 @@
 <?php
 
-class ProductController extends View {
+class ProductController extends BaseController {
     public function index(){
         if(is_logged_in()){
             $pro = new Product();
